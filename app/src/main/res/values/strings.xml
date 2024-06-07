@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Android-Challenge</string>
+    <string name="url_hint">url e.g: https://google.com</string>
+    <string name="request_button">Send</string>
+    <string name="add_header_button">Add header</string>
+    <string name="delete_header_button">Delete</string>
+    <string name="file_upload_cannot_read_file_error">Cannot read file</string>
+
+    <string-array name="request_methods">
+        <item>GET</item>
+        <item>POST</item>
+    </string-array>
+
+    <string-array name="post_type">
+        <item>JSON</item>
+        <item>Multipart</item>
+    </string-array>
 </resources>
