@@ -1,21 +1,17 @@
 package com.instabug.android_challenge.ui.cachedRequests
 
-import android.content.Context
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.instabug.android_challenge.R
 import com.instabug.android_challenge.ServiceLocator
-import com.instabug.android_challenge.data.local.RequestDbContract
+import com.instabug.android_challenge.data.source.local.RequestDbContract
 import com.instabug.android_challenge.databinding.ActivityCachedRequestsBinding
 import com.instabug.android_challenge.databinding.PopupFilterListBinding
 import com.instabug.android_challenge.factory.CachedRequestsViewModelFactory
@@ -53,6 +49,12 @@ class CachedRequestsActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.cached_requests_tool_bar_actions, menu)
+        if(viewModel.isSorted){
+            menu?.findItem(R.id.action_sort_requests)?.icon = ResourcesCompat.getDrawable(resources, R.drawable.icon_sort_desc, theme)
+        }
+        else{
+            menu?.findItem(R.id.action_sort_requests)?.icon = ResourcesCompat.getDrawable(resources, R.drawable.icon_sort_asc, theme)
+        }
         return super.onCreateOptionsMenu(menu)
     }
 

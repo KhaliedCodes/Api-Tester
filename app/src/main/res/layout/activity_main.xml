@@ -74,7 +74,9 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/header_list_rv"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintHeight_max="300dp"
+                    app:layout_constraintHeight_default="wrap"
                     app:layout_constraintTop_toBottomOf="@id/post_type_spinner"/>
 
                 <Button

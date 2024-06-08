@@ -1,4 +1,4 @@
-package com.instabug.android_challenge.data.local
+package com.instabug.android_challenge.data.source.local
 
 import android.content.ContentValues
 import android.provider.BaseColumns

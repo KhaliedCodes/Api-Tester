@@ -1,4 +1,4 @@
-package com.instabug.android_challenge.data.remote
+package com.instabug.android_challenge.data.source.remote
 
 import android.util.Log
 import com.instabug.android_challenge.model.Response

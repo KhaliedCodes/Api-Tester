@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.instabug.android_challenge.data.HttpConnectionRepository
+import com.instabug.android_challenge.data.source.HttpConnectionRepository
 import com.instabug.android_challenge.model.Header
 import com.instabug.android_challenge.model.Request
 import com.instabug.android_challenge.model.Response
