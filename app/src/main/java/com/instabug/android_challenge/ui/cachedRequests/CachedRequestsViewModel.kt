@@ -11,7 +11,7 @@ import java.util.concurrent.Executors
 
 class CachedRequestsViewModel(private val httpConnectionRepository: HttpConnectionRepository) : ViewModel() {
 
-    var isSorted: Boolean = false
+    var isSorted: Boolean? = null
 
     var filter: Filter? = null
 
@@ -36,7 +36,6 @@ class CachedRequestsViewModel(private val httpConnectionRepository: HttpConnecti
         Executors.newSingleThreadExecutor().execute {
             _requestList.postValue(httpConnectionRepository.getAllRequests(this.filter, this.sort))
             _loading.postValue(false)
-            isSorted = !isSorted
         }
     }
 }

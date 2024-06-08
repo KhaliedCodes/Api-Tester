@@ -49,10 +49,10 @@ class CachedRequestsActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.cached_requests_tool_bar_actions, menu)
-        if(viewModel.isSorted){
+        if(viewModel.isSorted == true){
             menu?.findItem(R.id.action_sort_requests)?.icon = ResourcesCompat.getDrawable(resources, R.drawable.icon_sort_desc, theme)
         }
-        else{
+        else if(viewModel.isSorted == false){
             menu?.findItem(R.id.action_sort_requests)?.icon = ResourcesCompat.getDrawable(resources, R.drawable.icon_sort_asc, theme)
         }
         return super.onCreateOptionsMenu(menu)
@@ -62,20 +62,21 @@ class CachedRequestsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when(item.itemId){
             R.id.action_sort_requests -> {
-                if(!viewModel.isSorted){
+                if(viewModel.isSorted == false || viewModel.isSorted == null){
                     item.icon = ResourcesCompat.getDrawable(resources, R.drawable.icon_sort_desc, theme)
                     viewModel.getAllRequests( sort = Sort(
                         RequestDbContract.Request.COLUMN_NAME_EXECUTION_TIME,
                         SortDirection.ASC
-                    )
-                    )
-                }
-                if(viewModel.isSorted){
+                    ))
+                    viewModel.isSorted = true
+                } else
+                if(viewModel.isSorted == true){
                     item.icon = ResourcesCompat.getDrawable(resources, R.drawable.icon_sort_asc, theme)
                     viewModel.getAllRequests( sort = Sort(
                         RequestDbContract.Request.COLUMN_NAME_EXECUTION_TIME,
                         SortDirection.DESC
                     ))
+                    viewModel.isSorted = false
                 }
                 true
             }
