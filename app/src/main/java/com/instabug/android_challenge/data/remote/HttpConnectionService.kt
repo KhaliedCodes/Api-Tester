@@ -12,6 +12,7 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.file.Files
+import kotlin.time.measureTime
 
 
 class HttpConnectionService {
@@ -38,8 +39,10 @@ class HttpConnectionService {
 
         try {
             // Response code
+            val duration = measureTime {
+                httpURLConnection.responseCode
+            }
             val responseCode = httpURLConnection.responseCode
-
             if (responseCode in 200..299) {
                 // Read the response
                 val `in` = BufferedReader(InputStreamReader(httpURLConnection.inputStream))
@@ -52,7 +55,7 @@ class HttpConnectionService {
                 `in`.close()
 
                 // Return response
-                return Response(url, response.toString(), null, null, responseCode, httpURLConnection.headerFields, requestHeaders)
+                return Response(url, response.toString(), null, null, responseCode, httpURLConnection.headerFields, requestHeaders, duration.inWholeMilliseconds)
             } else {
                 val `in` = BufferedReader(InputStreamReader(httpURLConnection.errorStream))
                 val response = StringBuffer()
@@ -62,11 +65,11 @@ class HttpConnectionService {
                     response.append(inputLine)
                 }
                 `in`.close()
-                return Response(url, null, null, response.toString(), responseCode, httpURLConnection.headerFields, requestHeaders)
+                return Response(url, null, null, response.toString(), responseCode, httpURLConnection.headerFields, requestHeaders, duration.inWholeMilliseconds)
             }
         } catch (e: Exception){
             e.printStackTrace()
-            return Response(url, null, null, e.message, httpURLConnection.responseCode, null, requestHeaders)
+            return Response(url, null, null, e.message, httpURLConnection.responseCode, null, requestHeaders, 0)
         } finally {
             httpURLConnection.disconnect()
         }
@@ -99,6 +102,9 @@ class HttpConnectionService {
         Log.e("method", RequestMethodEnum.POST.name)
         try {
             // Response code
+            val duration = measureTime {
+                httpURLConnection.responseCode
+            }
             val responseCode = httpURLConnection.responseCode
 
             if (responseCode in 200..299) {
@@ -113,7 +119,7 @@ class HttpConnectionService {
                 `in`.close()
 
                 // Return response
-                return Response(url, response.toString(), null, body, responseCode, httpURLConnection.headerFields, requestHeaders)
+                return Response(url, response.toString(), body, null,  responseCode, httpURLConnection.headerFields, requestHeaders, duration.inWholeMilliseconds)
             } else {
                 val `in` = BufferedReader(InputStreamReader(httpURLConnection.errorStream))
                 val response = StringBuffer()
@@ -123,11 +129,11 @@ class HttpConnectionService {
                     response.append(inputLine)
                 }
                 `in`.close()
-                return Response(url, null, body, response.toString(), responseCode, httpURLConnection.headerFields, requestHeaders)
+                return Response(url, null, body, response.toString(), responseCode, httpURLConnection.headerFields, requestHeaders, duration.inWholeMilliseconds)
             }
         } catch (e: Exception){
             e.printStackTrace()
-            return Response(url, null, body, e.message, httpURLConnection.responseCode, null, requestHeaders)
+            return Response(url, null, body, e.message, httpURLConnection.responseCode, null, requestHeaders, 0)
         } finally {
             httpURLConnection.disconnect()
         }
@@ -151,7 +157,7 @@ class HttpConnectionService {
         val outputStream = httpURLConnection.outputStream
         val dataOutputStream = DataOutputStream(outputStream)
 //        addFormField("content", "fileUploaded", dataOutputStream)
-        addFilePart("haha", file, dataOutputStream)
+        addFilePart("file", file, dataOutputStream)
         dataOutputStream.writeBytes(this.crlf)
         dataOutputStream.writeBytes(this.twoHyphens + this.boundary + this.twoHyphens+ this.crlf)
         dataOutputStream.flush()
@@ -164,6 +170,9 @@ class HttpConnectionService {
         Log.e("method", RequestMethodEnum.POST.name)
         try {
             // Response code
+            val duration = measureTime {
+                httpURLConnection.responseCode
+            }
             val responseCode = httpURLConnection.responseCode
 
             if (responseCode in 200..299) {
@@ -178,7 +187,7 @@ class HttpConnectionService {
                 `in`.close()
 
                 // Return response
-                return Response(url, response.toString(), file.toString(), null, responseCode, httpURLConnection.headerFields, requestHeaders)
+                return Response(url, response.toString(), file.toString(), null, responseCode, httpURLConnection.headerFields, requestHeaders,  duration.inWholeMilliseconds)
             } else {
                 val `in` = BufferedReader(InputStreamReader(httpURLConnection.errorStream))
                 val response = StringBuffer()
@@ -188,11 +197,11 @@ class HttpConnectionService {
                     response.append(inputLine)
                 }
                 `in`.close()
-                return Response(url, null, file.toString(), response.toString(), responseCode, httpURLConnection.headerFields, requestHeaders)
+                return Response(url, null, file.toString(), response.toString(), responseCode, httpURLConnection.headerFields, requestHeaders,  duration.inWholeMilliseconds)
             }
         } catch (e: Exception){
             e.printStackTrace()
-            return Response(url, null, file.toString(), e.message, httpURLConnection.responseCode, null, requestHeaders)
+            return Response(url, null, file.toString(), e.message, httpURLConnection.responseCode, null, requestHeaders,  0)
         } finally {
             httpURLConnection.disconnect()
         }

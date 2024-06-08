@@ -1,12 +1,13 @@
 package com.instabug.android_challenge.model
 
-data class Response(
+data class Request (
     val url: String,
     val responseBody: String?,
     val requestBody: String?,
     val errorBody: String?,
     val code: Int,
-    val responseHeaders: Map<String, List<String>>?,
-    val requestHeaders: Map<String, List<String>>?,
-    val executionTime : Long
+    val executionTime : Long,
+    val method: String,
+    val status : Boolean = code in 200..299,
+    val id: Int = 0,
 )

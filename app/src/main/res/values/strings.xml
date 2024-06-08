@@ -5,6 +5,28 @@
     <string name="add_header_button">Add header</string>
     <string name="delete_header_button">Delete</string>
     <string name="file_upload_cannot_read_file_error">Cannot read file</string>
+    <string name="tool_bar_cached_requests">Cached requests</string>
+    <string name="select_file_btn">Select file</string>
+    <string name="request_body_edit">Request body</string>
+    <string name="request_url_field">Request Url: </string>
+    <string name="request_code_field">Response code: </string>
+    <string name="error_body_field">Error body: </string>
+    <string name="response_body_field">Response body: </string>
+    <string name="request_body_field">Request body: </string>
+    <string name="query_params_field">Request query params: </string>
+    <string name="request_headers_field">Request headers: </string>
+    <string name="response_headers_field">Response headers: </string>
+    <string name="radio_btn_all">All</string>
+    <string name="radio_btn_get_requests">Get requests</string>
+    <string name="radio_btn_post_requests">Post requests</string>
+    <string name="radio_btn_success_status">Success status</string>
+    <string name="radio_btn_failed_status">Failed status</string>
+    <string name="status_field">Status: </string>
+    <string name="execution_time_field">Execution time: </string>
+    <string name="empty_state">No items</string>
+    <string name="header_key">key</string>
+    <string name="header_value">value</string>
+
 
     <string-array name="request_methods">
         <item>GET</item>

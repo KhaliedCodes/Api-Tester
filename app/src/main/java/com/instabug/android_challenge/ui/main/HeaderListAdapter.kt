@@ -1,4 +1,4 @@
-package com.instabug.khaledtask.ui.product
+package com.instabug.android_challenge.ui.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -27,7 +27,7 @@ class HeaderListAdapter(var currentList: MutableList<Header>, private val remove
 
     class HeaderViewHolder(private val binding: ListItemHeaderBinding) : RecyclerView.ViewHolder(binding.root){
         companion object{
-            fun from(parent: ViewGroup): HeaderViewHolder{
+            fun from(parent: ViewGroup): HeaderViewHolder {
                 val bindings  = ListItemHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 return HeaderViewHolder(bindings)
             }

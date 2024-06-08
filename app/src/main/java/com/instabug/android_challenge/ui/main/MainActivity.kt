@@ -1,9 +1,11 @@
-package com.instabug.android_challenge.ui
+package com.instabug.android_challenge.ui.main
 
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -14,21 +16,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.instabug.android_challenge.R
+import com.instabug.android_challenge.ServiceLocator
 import com.instabug.android_challenge.Utils.FilesUtils
-import com.instabug.android_challenge.data.remote.HttpConnectionService
 import com.instabug.android_challenge.model.enums.RequestMethodEnum
 import com.instabug.android_challenge.databinding.ActivityMainBinding
 import com.instabug.android_challenge.factory.MainViewModelFactory
 import com.instabug.android_challenge.model.Header
 import com.instabug.android_challenge.model.enums.PostTypeEnum
-import com.instabug.khaledtask.ui.product.HeaderListAdapter
+import com.instabug.android_challenge.ui.cachedRequests.CachedRequestsActivity
 import java.io.File
 import java.net.URI
 
 class MainActivity : AppCompatActivity(){
     private val viewModel: MainViewModel by viewModels {
         MainViewModelFactory(
-            HttpConnectionService()
+            ServiceLocator.provideHttpConnectionRepository(this)
         )
     }
 
@@ -67,7 +69,25 @@ class MainActivity : AppCompatActivity(){
 
 
     private fun setupUi(){
+        setSupportActionBar(binding.toolbar)
         binding.fileNameTv.paint.isUnderlineText = true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_tool_bar_actions, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when(item.itemId){
+            R.id.action_cached_requests -> {
+                startActivity(Intent(this, CachedRequestsActivity::class.java))
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+
     }
 
     private fun setupHeaderListAdapter(){
@@ -88,18 +108,18 @@ class MainActivity : AppCompatActivity(){
             when(viewModel.selectedMethod){
                 RequestMethodEnum.GET.name -> {
                     if(!validate()) return@setOnClickListener
-                    disableUi()
+                    showResult()
                     viewModel.makeGETRequest()
                 }
                 RequestMethodEnum.POST.name -> {
                     if(viewModel.selectedPostType == PostTypeEnum.JSON.name){
                         if(!validate()) return@setOnClickListener
-                        disableUi()
+                        showResult()
                         viewModel.makePOSTRequest()
                     }
                     if (viewModel.selectedPostType == PostTypeEnum.Multipart.name){
                         if(!validate()) return@setOnClickListener
-                        disableUi()
+                        showResult()
                         viewModel.makePOSTMultipartRequest()
                     }
                 }
@@ -148,11 +168,11 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun disableUi(){
+    private fun showResult(){
         binding.resultContainer.isVisible = false
     }
 
-    fun enableUi(){
+    private fun HideResult(){
         binding.resultContainer.isVisible = true
     }
 
@@ -253,7 +273,7 @@ class MainActivity : AppCompatActivity(){
                 URI.create(viewModel.url.value).query?.split("&")?.joinToString("\n")
             binding.responseHeaders.text = it?.responseHeaders?.toList()
                 ?.joinToString("\n") { "${it.first} : ${it.second}" }
-            enableUi()
+            HideResult()
         }
     }
 

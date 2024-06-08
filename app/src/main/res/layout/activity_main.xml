@@ -5,291 +5,309 @@
     <data>
         <variable
             name="viewModel"
-            type="com.instabug.android_challenge.ui.MainViewModel" />
+            type="com.instabug.android_challenge.ui.main.MainViewModel" />
     </data>
-    <androidx.core.widget.NestedScrollView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/main"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="20dp">
+            android:layout_height="wrap_content"
+            android:background="@color/primary_color"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:title="@string/app_name"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <ProgressBar
+            android:id="@+id/progress_loader"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:indeterminateTint="@color/primary_color"
+            android:visibility="@{viewModel.loading}"/>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toBottomOf="parent">
 
 
-            <ProgressBar
-                android:id="@+id/progress_loader"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:indeterminateTint="@color/primary_color"
-                android:visibility="@{viewModel.loading}"/>
-            <EditText
-                android:id="@+id/url_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/url_hint"
-                android:inputType="textUri"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="@={viewModel.urlInput}"
-                android:maxLines="5"
-                />
-            <Spinner
-                android:id="@+id/methods_spinner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/url_edit_text"/>
-
-            <Spinner
-                android:id="@+id/post_type_spinner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/methods_spinner"
-                android:visibility="gone"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/header_list_rv"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/main"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@id/post_type_spinner"/>
+                android:padding="20dp">
 
-            <Button
-                android:id="@+id/add_header_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_header_button"
-                app:layout_constraintStart_toStartOf="parent"
-                android:backgroundTint="@color/primary_color"
-                app:layout_constraintTop_toBottomOf="@id/header_list_rv"
-                android:enabled="@{!viewModel.loading}"
-                android:clickable="@{!viewModel.loading}"/>
-            <LinearLayout
-                android:id="@+id/file_upload_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/add_header_button">
+
+
+                <EditText
+                    android:id="@+id/url_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/url_hint"
+                    android:inputType="textUri"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@={viewModel.urlInput}"
+                    android:maxLines="5"
+                    />
+                <Spinner
+                    android:id="@+id/methods_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/url_edit_text"/>
+
+                <Spinner
+                    android:id="@+id/post_type_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/methods_spinner"
+                    android:visibility="gone"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/header_list_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    app:layout_constraintTop_toBottomOf="@id/post_type_spinner"/>
 
                 <Button
-                    android:id="@+id/select_file_button"
+                    android:id="@+id/add_header_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Select file"
+                    android:text="@string/add_header_button"
                     app:layout_constraintStart_toStartOf="parent"
                     android:backgroundTint="@color/primary_color"
+                    app:layout_constraintTop_toBottomOf="@id/header_list_rv"
                     android:enabled="@{!viewModel.loading}"
                     android:clickable="@{!viewModel.loading}"/>
-                <TextView
-                    android:layout_marginStart="10dp"
-                    android:id="@+id/file_name_tv"
+                <LinearLayout
+                    android:id="@+id/file_upload_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/primary_color"
-                    android:text="@{viewModel.currentUploadFileName}"
-                    tools:text="Link.jpg"/>
-            </LinearLayout>
-            <EditText
-                android:id="@+id/body_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="request body"
-                android:text="@={viewModel.requestBodyInput}"
-                android:inputType="textMultiLine"
-                android:minLines="5"
-                app:layout_constraintTop_toBottomOf="@id/file_upload_container"
-                />
-            <Button
-                android:id="@+id/send_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/request_button"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:backgroundTint="@color/primary_color"
-                app:layout_constraintTop_toBottomOf="@id/body_edit_text"
-                android:enabled="@{!viewModel.loading}"
-                android:clickable="@{!viewModel.loading}"/>
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/add_header_button"
+                    android:visibility="gone">
 
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/result_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/send_button"
-                android:orientation="vertical"
-                app:cardCornerRadius="10dp"
-                android:shadowRadius="0"
-                android:visibility="gone">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
-                    <LinearLayout
+                    <Button
+                        android:id="@+id/select_file_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/select_file_btn"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:backgroundTint="@color/primary_color"
+                        android:enabled="@{!viewModel.loading}"
+                        android:clickable="@{!viewModel.loading}"/>
+                    <TextView
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/file_name_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingVertical="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Request Url: "/>
-                        <TextView
-                            android:id="@+id/response_url"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:maxLines="10"
-                            android:ellipsize="end"
-                            android:text="@{viewModel.response.url}"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingVertical="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Response code: "/>
-                        <TextView
-                            android:id="@+id/response_code"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:maxLines="10"
-                            android:ellipsize="end"
-                            android:text="@{String.valueOf(viewModel.response.code)}"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingVertical="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Error body: "/>
-                        <TextView
-                            android:id="@+id/response_error"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:maxLines="20"
-                            android:ellipsize="end"
-                            android:text="@{viewModel.response.error}"/>
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingVertical="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Response body: "/>
-                        <TextView
-                            android:id="@+id/response_body"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:maxLines="20"
-                            android:ellipsize="end"
-                            android:text="@{viewModel.response.responseBody}"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingVertical="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Request body: "/>
-                        <TextView
-                            android:id="@+id/request_body"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:maxLines="20"
-                            android:ellipsize="end"
-                            android:text="@{viewModel.response.requestBody}"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingVertical="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Request query params: "/>
-                        <TextView
-                            android:id="@+id/request_query"
-                            android:layout_width="match_parent"
-                            android:maxLines="10"
-                            android:ellipsize="end"
-                            android:layout_height="wrap_content"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingVertical="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Request headers: "/>
-                        <TextView
-                            android:id="@+id/request_headers"
-                            android:layout_width="match_parent"
-                            android:maxLines="20"
-                            android:ellipsize="end"
-                            android:layout_height="wrap_content"/>
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingVertical="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Response headers: "/>
-                        <TextView
-                            android:id="@+id/response_headers"
-                            android:layout_width="match_parent"
-                            android:maxLines="20"
-                            android:ellipsize="end"
-                            android:layout_height="wrap_content"/>
-
-                    </LinearLayout>
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textColor="@color/primary_color"
+                        android:text="@{viewModel.currentUploadFileName}"
+                        tools:text="Link.jpg"/>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+                <EditText
+                    android:id="@+id/body_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/request_body_edit"
+                    android:text="@={viewModel.requestBodyInput}"
+                    android:inputType="textMultiLine"
+                    android:minLines="5"
+                    app:layout_constraintTop_toBottomOf="@id/file_upload_container"
+                    android:visibility="gone"/>
+                <Button
+                    android:id="@+id/send_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/request_button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:backgroundTint="@color/primary_color"
+                    app:layout_constraintTop_toBottomOf="@id/body_edit_text"
+                    android:enabled="@{!viewModel.loading}"
+                    android:clickable="@{!viewModel.loading}"/>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/result_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/send_button"
+                    android:orientation="vertical"
+                    app:cardCornerRadius="10dp"
+                    android:shadowRadius="0"
+                    android:visibility="gone">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingVertical="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/request_url_field"/>
+                            <TextView
+                                android:id="@+id/response_url"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="10"
+                                android:ellipsize="end"
+                                android:text="@{viewModel.response.url}"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingVertical="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/request_code_field"/>
+                            <TextView
+                                android:id="@+id/response_code"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="10"
+                                android:ellipsize="end"
+                                android:text="@{String.valueOf(viewModel.response.code)}"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingVertical="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/error_body_field"/>
+                            <TextView
+                                android:id="@+id/response_error"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="20"
+                                android:ellipsize="end"
+                                android:text="@{viewModel.response.errorBody}"/>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingVertical="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/response_body_field"/>
+                            <TextView
+                                android:id="@+id/response_body"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="20"
+                                android:ellipsize="end"
+                                android:text="@{viewModel.response.responseBody}"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingVertical="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/request_body_field"/>
+                            <TextView
+                                android:id="@+id/request_body"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLines="20"
+                                android:ellipsize="end"
+                                android:text="@{viewModel.response.requestBody}"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingVertical="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/query_params_field"/>
+                            <TextView
+                                android:id="@+id/request_query"
+                                android:layout_width="match_parent"
+                                android:maxLines="10"
+                                android:ellipsize="end"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingVertical="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/request_headers_field"/>
+                            <TextView
+                                android:id="@+id/request_headers"
+                                android:layout_width="match_parent"
+                                android:maxLines="20"
+                                android:ellipsize="end"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingVertical="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/response_headers_field"/>
+                            <TextView
+                                android:id="@+id/response_headers"
+                                android:layout_width="match_parent"
+                                android:maxLines="20"
+                                android:ellipsize="end"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

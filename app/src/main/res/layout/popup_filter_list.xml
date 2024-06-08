@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardUseCompatPadding="true">
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:divider="?android:attr/dividerHorizontal"
+            android:showDividers="middle"
+            android:padding="10dp">
+            <RadioButton
+                android:id="@+id/radioAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_btn_all" />
+            <RadioButton
+                android:id="@+id/radioGetType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_btn_get_requests"/>
+            <RadioButton
+                android:id="@+id/radioPostType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_btn_post_requests"/>
+            <RadioButton
+                android:id="@+id/radioStatusSuccess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_btn_success_status"/>
+            <RadioButton
+                android:id="@+id/radioStatusFailed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_btn_failed_status"/>
+        </RadioGroup>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
