@@ -98,7 +98,7 @@ class MainViewModel(private val httpConnectionRepository: HttpConnectionReposito
         Executors.newSingleThreadExecutor().execute {
             try {
                 val res = httpConnectionRepository.sendPostRequestMultiPart(urlInput, currentUploadFile, headerList.associate { it.key to it.value })
-                _response.postValue(res)
+
 
                 httpConnectionRepository.insertRequest(Request(
                     res.url,
@@ -109,6 +109,7 @@ class MainViewModel(private val httpConnectionRepository: HttpConnectionReposito
                     res.executionTime,
                     selectedMethod
                 ))
+                _response.postValue(res)
             }catch (e: Exception){
                 _response.postValue(null)
             }

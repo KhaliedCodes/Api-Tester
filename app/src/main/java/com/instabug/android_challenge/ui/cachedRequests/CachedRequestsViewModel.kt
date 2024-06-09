@@ -34,7 +34,12 @@ class CachedRequestsViewModel(private val httpConnectionRepository: HttpConnecti
         this.filter = filter
         this.sort = sort
         Executors.newSingleThreadExecutor().execute {
-            _requestList.postValue(httpConnectionRepository.getAllRequests(this.filter, this.sort))
+            try {
+                _requestList.postValue(httpConnectionRepository.getAllRequests(this.filter, this.sort))
+            } catch (e: Exception){
+                _requestList.postValue(emptyList())
+
+            }
             _loading.postValue(false)
         }
     }

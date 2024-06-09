@@ -4,33 +4,26 @@ import com.instabug.android_challenge.model.Filter
 import com.instabug.android_challenge.model.Request
 import com.instabug.android_challenge.model.Response
 import com.instabug.android_challenge.model.Sort
+import com.instabug.android_challenge.model.enums.SortDirection
 import java.io.File
 
 class FakeHttpConnectionRepository: HttpConnectionRepository {
 
-    companion object{
-        val response = Response("fake url",
-            "fake response body",
-            "false request body",
-            "fake error body",
-            200,
-            emptyMap(),
-            emptyMap(),
-            200
 
-        )
+    var response: Response? = null
 
-        val request = Request("fake url",
-            "fake response body",
-            "false request body",
-            "fake error body",
-            200,
-            200,
-            "GET",
-        )
-    }
+    var request: Request? = null
+
+    var requestsList: List<Request> = emptyList()
+
+    var insertRequestCalled = false
+    var throwException: Boolean = false
+
+
+
+
     override fun sendGetRequest(url: String, headers: Map<String, String>): Response {
-        return response
+        return response!!
     }
 
     override fun sendPostRequest(
@@ -38,7 +31,8 @@ class FakeHttpConnectionRepository: HttpConnectionRepository {
         body: String,
         headers: Map<String, String>
     ): Response {
-        return response
+        if(throwException) throw RuntimeException("Mocked exception")
+        return response!!
     }
 
     override fun sendPostRequestMultiPart(
@@ -46,14 +40,32 @@ class FakeHttpConnectionRepository: HttpConnectionRepository {
         file: File?,
         headers: Map<String, String>
     ): Response {
-        return response
+        if(throwException) throw RuntimeException("Mocked exception")
+        return response!!
     }
 
     override fun insertRequest(request: Request) {
+        this.request = request
+        insertRequestCalled = true
         return
     }
 
     override fun getAllRequests(filter: Filter?, sort: Sort?): List<Request> {
-        return listOf(request)
+
+        if(throwException) throw RuntimeException("Mocked exception")
+        val filteredList = requestsList.filter {
+            if(filter?.filterBy != null && filter.filterValue != null){
+                val field = it::class.java.getDeclaredField("${filter.filterBy}")
+                field.isAccessible = true
+                field.get(it) == filter.filterValue
+            } else true
+        }
+
+        val sortedList = if(sort?.sortBy != null && sort.sortDirection != null){
+            if(sort.sortDirection == SortDirection.ASC) filteredList.sortedBy { it.executionTime }
+            else filteredList.sortedByDescending { it.executionTime }
+        } else filteredList
+
+        return sortedList
     }
 }
