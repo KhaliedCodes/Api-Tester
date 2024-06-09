@@ -1,5 +1,6 @@
-package com.instabug.android_challenge.data.source
+package com.instabug.android_challenge.data.fakeSource
 
+import com.instabug.android_challenge.data.source.DataSource
 import com.instabug.android_challenge.model.Filter
 import com.instabug.android_challenge.model.Request
 import com.instabug.android_challenge.model.Response
@@ -7,9 +8,7 @@ import com.instabug.android_challenge.model.Sort
 import com.instabug.android_challenge.model.enums.SortDirection
 import java.io.File
 
-class FakeHttpConnectionRepository: HttpConnectionRepository {
-
-
+class FakeDataSource: DataSource {
     var response: Response? = null
 
     var request: Request? = null

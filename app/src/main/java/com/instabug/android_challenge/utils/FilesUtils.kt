@@ -1,4 +1,4 @@
-package com.instabug.android_challenge.Utils
+package com.instabug.android_challenge.utils
 
 
 import android.content.ContentResolver

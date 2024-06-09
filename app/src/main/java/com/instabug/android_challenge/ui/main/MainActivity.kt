@@ -17,7 +17,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.instabug.android_challenge.R
 import com.instabug.android_challenge.ServiceLocator
-import com.instabug.android_challenge.Utils.FilesUtils
+import com.instabug.android_challenge.utils.FilesUtils
 import com.instabug.android_challenge.model.enums.RequestMethodEnum
 import com.instabug.android_challenge.databinding.ActivityMainBinding
 import com.instabug.android_challenge.factory.MainViewModelFactory

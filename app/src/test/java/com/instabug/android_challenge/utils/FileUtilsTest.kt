@@ -1,15 +1,10 @@
 package com.instabug.android_challenge.utils
 
-import android.net.Uri
-import android.os.Environment
-import android.provider.OpenableColumns
-import com.instabug.android_challenge.Utils.FilesUtils
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import org.mockito.Mockito
 import java.io.ByteArrayInputStream
 import java.io.File
 

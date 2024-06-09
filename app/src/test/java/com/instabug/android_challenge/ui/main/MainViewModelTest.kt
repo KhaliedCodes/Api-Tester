@@ -1,7 +1,7 @@
 package com.instabug.android_challenge.ui.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.instabug.android_challenge.data.source.FakeHttpConnectionRepository
+import com.instabug.android_challenge.data.fakeSource.FakeHttpConnectionRepository
 import com.instabug.android_challenge.model.Request
 import com.instabug.android_challenge.model.Response
 import com.instabug.android_challenge.model.enums.RequestMethodEnum
